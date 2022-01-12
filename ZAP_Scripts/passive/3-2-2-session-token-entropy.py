@@ -9,8 +9,6 @@ A session token with 64 bits of entropy must be at least 128 bits in length. The
 
 def scan(ps, msg, src):
 
-  cookies = msg.getResponseHeader().getHttpCookies()
-
   alertRisk= 0
   alertConfidence = 1
   alertTitle = "3.2.2 Verify that session tokens possess at least 64 bits of entropy."
@@ -23,6 +21,8 @@ def scan(ps, msg, src):
   alertEvidence = "" 
   cweID = 614
   wascID = 0
+
+  cookies = msg.getResponseHeader().getHttpCookies(url)
   
   for c in cookies:
     if (len(c) < 22):
