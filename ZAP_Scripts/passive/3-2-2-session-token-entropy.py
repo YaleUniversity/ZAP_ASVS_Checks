@@ -22,11 +22,8 @@ def getToken(msg):
 
 def calculateEntropy(token):
   n = len(list(set(list(token)))) #n = set of possible characters for token
-  print(n)
   l = len(token) #l = length of token
-  print(l)
   h = math.log(math.pow(n, l), 2) #h = log2(n^l) = entropy
-  print(h)
   return h
 
 
@@ -42,13 +39,12 @@ def scan(ps, msg, src):
   alertInfo = "https://owasp.org/www-community/vulnerabilities/Insufficient_Session-ID_Length"
   alertSolution = "Ensure any session token is at least 128 bits long."
   alertEvidence = "" 
-  cweID = 614
+  cweID = 331
   wascID = 0
 
   token = getToken(msg)
   if token:
     entropy = calculateEntropy(token)
-    print(entropy)
     if (entropy < 128):
       alertEvidence = "Token " + token + "/n" + "Entropy " + entropy
       ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
