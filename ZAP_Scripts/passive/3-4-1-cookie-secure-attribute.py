@@ -24,6 +24,6 @@ def scan(ps, msg, src):
   cweID = 614
   wascID = 0
   
-  if ("secure" not in headerCookie.lower()):
+  if (headerCookie != "None" and "secure" not in headerCookie.lower()):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
