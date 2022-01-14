@@ -24,7 +24,7 @@ def scan(ps, msg, src):
 
   alertRisk= 0
   alertConfidence = 1
-  alertTitle = "14.4.1 Verify that every HTTP response contains a Content-Type header. Also specify a safe character set (e.g., UTF-8, ISO-8859-1) if the content types are text/*, /+xml and application/xml. Content must match with the provided Content-Type header."
+  alertTitle = "14.4.1 Verify that every HTTP response contains a Content-Type header."
   alertDescription = "The Content-Type representation header is used to indicate the original media type of the resource (before any content encoding is applied for sending)."
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""

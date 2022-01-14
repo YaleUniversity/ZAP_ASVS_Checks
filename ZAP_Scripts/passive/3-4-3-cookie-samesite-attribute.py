@@ -14,7 +14,7 @@ def scan(ps, msg, src):
 
   alertRisk= 0
   alertConfidence = 1
-  alertTitle = "3.4.3 Verify that cookie-based session tokens utilize the 'SameSite' attribute to limit exposure to cross-site request forgery attacks."
+  alertTitle = "3.4.3 Verify that cookie-based session tokens utilize the 'SameSite' attribute."
   alertDescription = "SameSite prevents the browser from sending this cookie along with cross-site requests. The main goal is to mitigate the risk of cross-origin information leakage. It also provides some protection against cross-site request forgery attacks. Possible values for the flag are none, lax, or strict."
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""

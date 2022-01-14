@@ -15,7 +15,7 @@ def scan(ps, msg, src):
 
   alertRisk= 0
   alertConfidence = 1
-  alertTitle = "3.4.1 Verify that cookie-based session tokens have the 'Secure' attribute set."
+  alertTitle = "14.4.2 Verify that all API responses contain a Content-Disposition."
   alertDescription = "Verify that all API responses contain a Content-Disposition: attachment; filename='api.json'header (or other appropriate filename for the content type)."
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
