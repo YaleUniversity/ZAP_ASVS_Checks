@@ -1,29 +1,29 @@
 """
 
-Script testing 3.4.1 control from OWASP ASVS 4.0:
-'Verify that cookie-based session tokens have the 'Secure' attribute set.'
+Script testing 14.4.4 control from OWASP ASVS 4.0:
+'Verify that all responses contain a X-Content-Type-Options: nosniff header.'
 
-The script will raise an alert if 'Secure' attribute is not present. 
+The script will raise an alert if 'X-Content-Type-Options: nosniff header is not present. 
 
 """
 
 def scan(ps, msg, src):
 
-  headerCookie = str(msg.getResponseHeader().getHeader("Set-Cookie"))
+  header = str(msg.getResponseHeader().getHeader("X-Content-Type-Options"))
 
   alertRisk= 0
   alertConfidence = 1
-  alertTitle = "3.4.1 Verify that cookie-based session tokens have the 'Secure' attribute set."
-  alertDescription = "The secure attribute is an option that can be set by the application server when sending a new cookie to the user within an HTTP Response. The purpose of the secure attribute is to prevent cookies from being observed by unauthorized parties due to the transmission of the cookie in clear text. To accomplish this goal, browsers which support the secure attribute will only send cookies with the secure attribute when the request is going to an HTTPS page. Said in another way, the browser will not send a cookie with the secure attribute set over an unencrypted HTTP request. By setting the secure attribute, the browser will prevent the transmission of a cookie over an unencrypted channel."
+  alertTitle = "14.4.4 Verify that all responses contain a X-Content-Type-Options: nosniff header."
+  alertDescription = "The X-Content-Type-Options response HTTP header is used by the server to prevent browsers from guessing the media type ( MIME type). This is known as MIME sniffing in which the browser guesses the correct MIME type by looking at the contents of the resource. The absence of this header might cause browsers to transform non-executable content into executable content."
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = "https://owasp.org/www-community/controls/SecureCookieAttribute"
-  alertSolution = "Add 'Secure' attribute when sending cookie."
-  alertEvidence = "" 
-  cweID = 614
+  alertInfo = "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html"
+  alertSolution = "Add 'X-Content-Type-Options: nosniff header to all HTTP responses."
+  alertEvidence = "X-Content-Type-Options" + header
+  cweID = 116
   wascID = 0
   
-  if (headerCookie != "None" and "secure" not in headerCookie.lower()):
+  if ((header != "None" and "nosniff" not in header.lower()) or header == "None"):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
