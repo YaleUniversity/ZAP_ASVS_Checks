@@ -1,29 +1,42 @@
 """
 
-Script testing 3.4.1 control from OWASP ASVS 4.0:
-'Verify that cookie-based session tokens have the 'Secure' attribute set.'
+Script testing 14.4.7 control from OWASP ASVS 4.0:
+'Verify that the content of a web application cannot be embedded in a third-
+party site by default and that embedding of the exact resources is only
+allowed where necessary by using suitable Content-Security-Policy: frame-
+ancestors and X-Frame-Options response headers.'
 
-The script will raise an alert if 'Secure' attribute is not present. 
+The script will raise an alert if 
+	1. X-Frame-Options: deny or X-Frame-Options: sameorigin
+	2. Content-Security-Policy: frame-ancestors ‘none’ or Content-Security-Policy: frame-ancestors
+is not present. 
 
 """
 
 def scan(ps, msg, src):
 
-  headerCookie = str(msg.getResponseHeader().getHeader("Set-Cookie"))
+  header_xframe = str(msg.getResponseHeader().getHeader("X-Frame-Options"))
+  header_csp = str(msg.getResponseHeader().getHeader("Content-Security-Policy"))
 
   alertRisk= 0
   alertConfidence = 1
-  alertTitle = "3.4.1 Verify that cookie-based session tokens have the 'Secure' attribute set."
-  alertDescription = "The secure attribute is an option that can be set by the application server when sending a new cookie to the user within an HTTP Response. The purpose of the secure attribute is to prevent cookies from being observed by unauthorized parties due to the transmission of the cookie in clear text. To accomplish this goal, browsers which support the secure attribute will only send cookies with the secure attribute when the request is going to an HTTPS page. Said in another way, the browser will not send a cookie with the secure attribute set over an unencrypted HTTP request. By setting the secure attribute, the browser will prevent the transmission of a cookie over an unencrypted channel."
+  alertTitle = "14.4.7 Verify that the content of a web application cannot be embedded in a third- party site."
+  alertDescription = "Verify that the content of a web application cannot be embedded in a third- party site by default and that embedding of the exact resources is only allowed where necessary by using suitable Content-Security-Policy: frame-ancestors and X-Frame-Options response headers."
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = "https://owasp.org/www-community/controls/SecureCookieAttribute"
-  alertSolution = "Add 'Secure' attribute when sending cookie."
+  alertInfo = "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html#x-frame-options" + "/n" + "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html#content-security-policy"
+  solutions = ["Add proper X-Frame-Options header to HTTP responses (deny or sameorigin).", "Add proper Content-Security-Policy: frame-ancestors header to HTTP responses."]
+  alertSolution = ""
   alertEvidence = "" 
-  cweID = 614
+  cweID = 1021
   wascID = 0
   
-  if (headerCookie != "None" and "secure" not in headerCookie.lower()):
+  if (header_xframe.lower() not in ["sameorigin", "deny"]):
+    alertSolution = solutions[0]
+  elif (header_csp.lower() not in ["frame-ancestors"]):
+    alertSolution = solutions[1]
+
+  if (alertSolution != ""):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
