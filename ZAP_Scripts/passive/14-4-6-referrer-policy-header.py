@@ -5,7 +5,7 @@ Script testing 14.4.6 control from OWASP ASVS 4.0:
 sensitive information in the URL through the Referer header to untrusted
 parties.'
 
-The script will raise an alert if 'Referrer-Policy' header is not present. 
+The script will raise an alert if 'Referrer-Policy' header is not present or does not contain 'strict-origin-when-cross-origin option'.
 
 """
 
@@ -26,6 +26,6 @@ def scan(ps, msg, src):
   cweID = 116
   wascID = 0
   
-  if ((header != "None" and "strict-origin-when-cross-origin" not in header.lower()) or header == "None"):
+  if (header.lower() not in ["strict-origin-when-cross-origin"]):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

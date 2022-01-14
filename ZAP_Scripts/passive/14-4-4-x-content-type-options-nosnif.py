@@ -24,6 +24,6 @@ def scan(ps, msg, src):
   cweID = 116
   wascID = 0
   
-  if ((header != "None" and "nosniff" not in header.lower()) or header == "None"):
+  if (header.lower() not in ["nosniff"]):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
