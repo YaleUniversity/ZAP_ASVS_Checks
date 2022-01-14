@@ -1,29 +1,31 @@
 """
 
-Script testing 3.4.1 control from OWASP ASVS 4.0:
-'Verify that cookie-based session tokens have the 'Secure' attribute set.'
+Script testing 14.4.6 control from OWASP ASVS 4.0:
+'Verify that a suitable Referrer-Policy header is included to avoid exposing
+sensitive information in the URL through the Referer header to untrusted
+parties.'
 
-The script will raise an alert if 'Secure' attribute is not present. 
+The script will raise an alert if 'Referrer-Policy' header is not present. 
 
 """
 
 def scan(ps, msg, src):
 
-  headerCookie = str(msg.getResponseHeader().getHeader("Set-Cookie"))
+  header = str(msg.getResponseHeader().getHeader("Referrer-Policy"))
 
   alertRisk= 0
   alertConfidence = 1
-  alertTitle = "3.4.1 Verify that cookie-based session tokens have the 'Secure' attribute set."
-  alertDescription = "The secure attribute is an option that can be set by the application server when sending a new cookie to the user within an HTTP Response. The purpose of the secure attribute is to prevent cookies from being observed by unauthorized parties due to the transmission of the cookie in clear text. To accomplish this goal, browsers which support the secure attribute will only send cookies with the secure attribute when the request is going to an HTTPS page. Said in another way, the browser will not send a cookie with the secure attribute set over an unencrypted HTTP request. By setting the secure attribute, the browser will prevent the transmission of a cookie over an unencrypted channel."
+  alertTitle = "14.4.6 Verify that a suitable Referrer-Policy header is included."
+  alertDescription = "Verify that a suitable Referrer-Policy header is included to avoid exposing sensitive information in the URL through the Referer header to untrusted parties."
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = "https://owasp.org/www-community/controls/SecureCookieAttribute"
-  alertSolution = "Add 'Secure' attribute when sending cookie."
+  alertInfo = "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html#referrer-policy"
+  alertSolution = "Add 'Referrer-Policy: strict-origin-when-cross-origin' header when sending HTTP response."
   alertEvidence = "" 
-  cweID = 614
+  cweID = 116
   wascID = 0
   
-  if (headerCookie != "None" and "secure" not in headerCookie.lower()):
+  if ((header != "None" and "strict-origin-when-cross-origin" not in header.lower()) or header == "None"):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
