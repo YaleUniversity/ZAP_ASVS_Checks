@@ -36,7 +36,7 @@ def scan(ps, msg, src):
   cweID = 173
   wascID = 0
   
-  if (header == "None"):
+  if (header is None):
     alertSolution = solutions[0]
   elif (useSafeCharacters(header)):
     alertSolution = solutions[1]
