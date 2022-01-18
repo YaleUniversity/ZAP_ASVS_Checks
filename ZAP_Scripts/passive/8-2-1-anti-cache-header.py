@@ -26,6 +26,6 @@ def scan(ps, msg, src):
   cweID = 525
   wascID = 0
   
-  if (header_cache == "None" and header_pragma == "None"):
+  if (header_cache is None and header_pragma is None):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
