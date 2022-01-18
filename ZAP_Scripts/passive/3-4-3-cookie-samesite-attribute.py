@@ -26,6 +26,6 @@ def scan(ps, msg, src):
   wascID = 0
 
   
-  if ((headerCookie is not None) and "samesite" not in headerCookie.lower()):
+  if ((headerCookie != "None") and "samesite" not in headerCookie.lower()):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

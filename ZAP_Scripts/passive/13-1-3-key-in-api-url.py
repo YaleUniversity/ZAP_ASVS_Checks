@@ -31,7 +31,7 @@ def scan(ps, msg, src):
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = "hhttps://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html"
+  alertInfo = "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html"
   alertSolution = "Remove session tokens or api key from URL: " + url
   alertEvidence = url 
   cweID = 116
