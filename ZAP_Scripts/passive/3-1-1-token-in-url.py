@@ -43,5 +43,6 @@ def scan(ps, msg, src):
   
   for t in tokens:
     if (t in url.upper()):
+      alertParam = t
       ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
