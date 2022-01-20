@@ -11,6 +11,8 @@ Credit to 4k1 on GitHub for thier implementation of this formula in python. http
 
 import ast, math
 
+#check response body for valid token and return it
+#return None if no token is found
 def getToken(msg):
   token = None
   try:
@@ -20,6 +22,7 @@ def getToken(msg):
     pass
   return token
 
+#calculate entropy of a given token
 def calculateEntropy(token):
   n = len(list(set(list(token)))) #n = set of possible characters for token
   l = len(token) #l = length of token
@@ -29,6 +32,7 @@ def calculateEntropy(token):
 
 def scan(ps, msg, src):
 
+  #alert parameters
   alertRisk= 0
   alertConfidence = 1
   alertTitle = "3.2.2 Verify that session tokens possess at least 64 bits of entropy."
@@ -37,15 +41,16 @@ def scan(ps, msg, src):
   alertParam = ""
   alertAttack = ""
   alertInfo = "https://owasp.org/www-community/vulnerabilities/Insufficient_Session-ID_Length"
-  alertSolution = "Ensure any session token is at least 128 bits long."
+  alertSolution = "Ensure any session token is at least 128 bits long." + "/n" + "Note: a single token that does not meet the entropy requirement is not sufficient to show the token generation is at 
   alertEvidence = "" 
   cweID = 331
   wascID = 0
 
   token = getToken(msg)
-  if token:
+
+  if token: #if token is not None
     entropy = calculateEntropy(token)
-    if (entropy < 128):
+    if (entropy < 128): #raise alert if entropy is less than 128
       alertEvidence = "Token " + token + "/n" + "Entropy " + entropy
       ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

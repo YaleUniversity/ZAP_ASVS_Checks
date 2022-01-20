@@ -10,8 +10,10 @@ The script will raise an alert if 'SameSite' attribute is not present.
 
 def scan(ps, msg, src):
 
+  #find "Set-Cookie" header
   headerCookie = str(msg.getResponseHeader().getHeader("Set-Cookie"))
 
+  #alert parameters
   alertRisk= 0
   alertConfidence = 1
   alertTitle = "3.4.3 Verify that cookie-based session tokens utilize the 'SameSite' attribute."
@@ -25,7 +27,7 @@ def scan(ps, msg, src):
   cweID = 16
   wascID = 0
 
-  
+  #if "Set-Cookie" header does not have "samesite" attribute, raise alert    
   if ((headerCookie != "None") and "samesite" not in headerCookie.lower()):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

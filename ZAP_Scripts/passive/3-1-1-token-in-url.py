@@ -11,6 +11,8 @@ The script will raise an alert if the following are found in the URL:
 """
 import ast
 
+#check response body for valid token and return it
+#return None if no token is found
 def getToken(msg):
   token = None
   try:
@@ -22,6 +24,7 @@ def getToken(msg):
 
 def scan(ps, msg, src):
 
+  #alert parameters
   alertRisk= 0
   alertConfidence = 1
   alertTitle = "3.1.1 Verify the application never reveals session tokens in URL parameters."
@@ -35,14 +38,17 @@ def scan(ps, msg, src):
   cweID = 598
   wascID = 0
   
+  
   tokens = ["PHPSESSID", "JSESSIONID", "CFID", "CFTOKEN", "ASP.NET_SESSIONID", "ID", "COOKIE", "JWT", "SESSION"]
 
+  #if valid token is found, make it uppercase
   app_token = getToken(msg)
   if (app_token is not None):
     tokens.append(app_token.upper())
   
+  #loop through tokens list and raise alert if it appears in the URL
   for t in tokens:
-    if (t in url.upper()):
+    if (t in url.upper()): #compare against uppercase URL to avoid case sensitivity
       alertParam = t
       ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

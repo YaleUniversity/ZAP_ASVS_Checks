@@ -11,8 +11,10 @@ The script will raise an alert if 'Strict-Transport-Security' header is not pres
 
 def scan(ps, msg, src):
 
+  #find "Strict-Transport-Security" header
   header = str(msg.getResponseHeader().getHeader("Strict-Transport-Security"))
 
+  #alert parameters
   alertRisk= 0
   alertConfidence = 1
   alertTitle = "14.4.5 Verify that a Strict-Transport-Security header is included on all responses."
@@ -26,6 +28,7 @@ def scan(ps, msg, src):
   cweID = 523
   wascID = 0
   
-  if (header != "None"):
+  #if header is not present (equals "None"), raise alert
+  if (header == "None"):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

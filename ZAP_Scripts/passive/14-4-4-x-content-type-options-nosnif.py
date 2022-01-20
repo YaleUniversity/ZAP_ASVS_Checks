@@ -8,9 +8,11 @@ The script will raise an alert if 'X-Content-Type-Options: nosniff header is not
 """
 
 def scan(ps, msg, src):
-
+ 
+  #find "X-Content-Type-Options" header
   header = str(msg.getResponseHeader().getHeader("X-Content-Type-Options"))
 
+  #alert parameters
   alertRisk= 0
   alertConfidence = 1
   alertTitle = "14.4.4 Verify that all responses contain a X-Content-Type-Options: nosniff header."
@@ -23,7 +25,8 @@ def scan(ps, msg, src):
   alertEvidence = "X-Content-Type-Options" + header
   cweID = 116
   wascID = 0
-  
-  if (header.lower() not in ["nosniff"]):
+
+  #if "no sniff" is not in header, raise alert  
+  if ("nosniff" not in header.lower()):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

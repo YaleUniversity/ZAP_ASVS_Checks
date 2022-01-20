@@ -13,9 +13,11 @@ headers are present
 
 def scan(ps, msg, src):
   
+  #search response header for "Server" and "X-Powered-By" headers
   header_server = str(msg.getResponseHeader().getHeader("Server"))
   header_xpowered = str(msg.getResponseHeader().getHeader("X-Powered-By"))
 
+  #alert parameters
   alertRisk= 0
   alertConfidence = 1
   alertTitle = "14.3.3 Verify that the HTTP headers do not expose detailed version information of system components."
@@ -30,13 +32,16 @@ def scan(ps, msg, src):
   cweID = 200
   wascID = 0
 
+  #if "Server" header is valid, add solution and evidence to alert
   if (header_server != "None"):
-    alertSolution = solutions[0]
-    alertEvidence = "Server: " + header_server
+    alertSolution += solutions[0]
+    alertEvidence += "Server: " + header_server
+  #if "Server" header is valid, add solution and evidence to alert
   if (header_xpowered != "None"):
-    alertSolution = solutions[1]
-    alertEvidence = "X-Powered-By: " + header_xpowered
+    alertSolution += solutions[1]
+    alertEvidence += "X-Powered-By: " + header_xpowered
   
+  #if the alert solution has been changed, raise alert
   if (alertSolution != ""):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

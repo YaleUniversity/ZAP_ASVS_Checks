@@ -10,7 +10,7 @@ The script will raise an alert if:
 	2. X-Content-Security-Policy or X-WebKit-CSP is used
 
 """
-
+#return valid header from ["Content-Security-Policy", "Content-Security-Policy-Report-Only", "X-Content-Security-Policy", "X-WebKit-CSP"]
 def findHeaderType(msg):
   headers = ["Content-Security-Policy", "Content-Security-Policy-Report-Only", "X-Content-Security-Policy", "X-WebKit-CSP"]
   headerType = ""
@@ -22,6 +22,7 @@ def findHeaderType(msg):
 
 def scan(ps, msg, src):
 
+  #alert parameters
   alertRisk= 0
   alertConfidence = 1
   alertTitle = "14.4.3 Verify that a Content Security Policy (CSP) response header is in place."
@@ -37,12 +38,16 @@ def scan(ps, msg, src):
   wascID = 0
 
   headerType = findHeaderType(msg)
+ 
+  #if header is "X-Content-Security-Policy" or "X-WebKit-CSP", change alert solution and evidence
   if (headerType in ["X-Content-Security-Policy", "X-WebKit-CSP"]):
     alertSolution = solutions[1]
     alertEvidence = str(msg.getResponseHeader().getHeader(headerType))
+  #if there is no valid header, change alert solution
   elif (headerType == ""):
     alertSolution = solutions[0]
   
+  #if alert solution has changed, raise alert
   if (alertSolution != ""):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

@@ -11,17 +11,21 @@ The script will raise an alert if:
 	2. The content types are text/*, /+xml and application/xml but safe character sets: UTF-8, ISO-8859-1 are not used
 
 """
+
+#if header contains "text/", "/+xml", or "application/xml" but does not use UTF-8, ISO-8859-1, return True
 def useSafeCharacters(header):
   types = ["text/", "/+xml", "application/xml"]
   for t in types:
-    if (t in header and (("charset=utf-8" not in header) or "ISO-8859-1" not in header)):
+    if (t in header and (("charset=utf-8" not in header) and "iso-8859-1" not in header)):
       return True
   return False
 
 def scan(ps, msg, src):
 
+  #find "Content-Type" header
   header = str(msg.getResponseHeader().getHeader("Content-Type"))
 
+  #alert parameters
   alertRisk= 0
   alertConfidence = 1
   alertTitle = "14.4.1 Verify that every HTTP response contains a Content-Type header."
@@ -36,11 +40,15 @@ def scan(ps, msg, src):
   cweID = 173
   wascID = 0
   
-  if (header != "None"):
+  #if there is no header, change alert solution
+  if (header == "None"):
     alertSolution = solutions[0]
-  elif (useSafeCharacters(header)):
+
+  #if header needs to use safe character sets, change alert solution
+  elif (useSafeCharacters(header.lower())):
     alertSolution = solutions[1]
 
+  #if alert solution has changed, raise alert
   if (alertSolution != ""):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

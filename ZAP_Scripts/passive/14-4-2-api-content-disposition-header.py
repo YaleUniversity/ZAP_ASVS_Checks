@@ -11,8 +11,10 @@ The script will raise an alert if 'Content-Disposition' header is present but no
 
 def scan(ps, msg, src):
 
+  #find "Content-Disposition" header
   header = str(msg.getResponseHeader().getHeader("Content-Disposition"))
 
+  #alert parameters
   alertRisk= 0
   alertConfidence = 1
   alertTitle = "14.4.2 Verify that all API responses contain a Content-Disposition."
@@ -26,6 +28,7 @@ def scan(ps, msg, src):
   cweID = 116
   wascID = 0
   
-  if (header.lower() not in ["attachment; filename="]):
+  # if "attachment; filename=" is not in "Content-Disposition" header, raise alert
+  if ("attachment; filename=" not in header.lower()):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

@@ -11,8 +11,10 @@ The script will raise an alert if 'Referrer-Policy' header is not present or doe
 
 def scan(ps, msg, src):
 
+  #find "Referrer[Policy" header
   header = str(msg.getResponseHeader().getHeader("Referrer-Policy"))
 
+  #alert parameters
   alertRisk= 0
   alertConfidence = 1
   alertTitle = "14.4.6 Verify that a suitable Referrer-Policy header is included."
@@ -25,7 +27,8 @@ def scan(ps, msg, src):
   alertEvidence = "" 
   cweID = 116
   wascID = 0
-  
-  if (header.lower() not in ["strict-origin-when-cross-origin"]):
+
+  #if header is not present (equals "None") or does not contain "strict-origin-when-cross-origin", raise alert
+  if ("strict-origin-when-cross-origin" not in header.lower()):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

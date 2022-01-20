@@ -9,8 +9,10 @@ The script will raise an alert if 'HttpOnly' attribute is not present.
 
 def scan(ps, msg, src):
 
+  #find "Set-Cookie" header
   headerCookie = str(msg.getResponseHeader().getHeader("Set-Cookie"))
 
+  #alert parameters
   alertRisk= 0
   alertConfidence = 1
   alertTitle = "3.4.2 Verify that cookie-based session tokens have the 'HttpOnly' attribute set."
@@ -24,6 +26,7 @@ def scan(ps, msg, src):
   cweID = 1004
   wascID = 0
   
+  #if "Set-Cookie" header does not have "httponly" attribute, raise alert  
   if ((headerCookie != "None") and "httponly" not in headerCookie.lower()):
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
