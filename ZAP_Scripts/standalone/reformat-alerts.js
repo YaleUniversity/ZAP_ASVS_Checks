@@ -1,12 +1,22 @@
-//Script testing 14.2.1 control from OWASP ASVS 4.0:
-//'Verify that all components are up to date, preferably using a dependency checker during build or compile time.'
-
-//The script checks loops through all the alerts looking for alerts from RetireJS (pluginId 10003) and changes the title and description to match ASVS requirement 14.2.1
-//For the script to work you need to install RetireJS add-on from the marketplace and use it with a spider on your website. Then run this script.
-
-//ASVS Controls
+//Script testing the following controls from OWASP ASVS 4.0:
+//5.3.5
+//5.3.10
+//5.3.3
+//5.3.7
+//5.3.8
+//5.1.2
+//6.2.1
+//5.3.9
+//5.5.2
 //14.2.1
 //4.3.2
+
+
+//The script checks loops through all the alerts looking for plugin ids that correspond to the ASVS controls 
+//and changes the title and description to match the requirement
+
+//alert plugin ids can be found here:
+//https://www.zaproxy.org/docs/alerts/
 
 
 extAlert = org.parosproxy.paros.control.Control.getSingleton().
@@ -25,56 +35,86 @@ if (extAlert != null) {
           switch (id){ //set up cases for each id to change alert format to match ASVS
             case "40018": //sql injection
               description = alert.getDescription()
-              alert.setName("");
-              alert.setDescription('TESTETSTETSETSTETTSTE' + description)
+              alert.setName("5.3.5 Verify that where parameterized or safer mechanisms are not present, context-specific output encoding is used.");
+              alert.setDescription('Verify that where parameterized or safer mechanisms are not present, context-specific output encoding is used to protect against injection attacks, such as the use of SQL escaping to protect against SQL injection.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case "90029": //soap xml injection
-              alert.setName("");
+              description = alert.getDescription()
+              alert.setName("5.3.10 Verify that the application protects against XML injection attacks.");
+              alert.setDescription('Verify that the application protects against XML injection attacks.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case "90021": //xpath injection
-              alert.setName("");
+              description = alert.getDescription()
+              alert.setName("5.3.10 Verify that the application protects against XPath injection attacks.");
+              alert.setDescription('Verify that the application protects against XPath injection attacks.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case "40012": //reflected xss
-              alert.setName("");
+              description = alert.getDescription()
+              alert.setName("5.3.3 Verify that context-aware, preferably automated - or at worst, manual - output escaping protects against reflected XSS.");
+              alert.setDescription('Verify that context-aware, preferably automated - or at worst, manual - output escaping protects against reflected XSS.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case "40014": //persistent xss
-              alert.setName("");
+              description = alert.getDescription()
+              alert.setName("5.3.3 Verify that context-aware, preferably automated - or at worst, manual - output escaping protects against stored XSS.");
+              alert.setDescription('Verify that context-aware, preferably automated - or at worst, manual - output escaping protects against stored XSS.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
-            case "40016": //persistent xss
-              alert.setName("");
+            case "40016": //persistent xss - prime
+              description = alert.getDescription()
+              alert.setName("5.3.3 Verify that context-aware, preferably automated - or at worst, manual - output escaping protects against stored XSS.");
+              alert.setDescription('Verify that context-aware, preferably automated - or at worst, manual - output escaping protects against stored XSS.' + "\n" + description)
+              extAlert.updateAlert(alert);
+              break;
+            case "40017": //persistent xss - spider
+              description = alert.getDescription()
+              alert.setName("5.3.3 Verify that context-aware, preferably automated - or at worst, manual - output escaping protects against stored XSS.");
+              alert.setDescription('Verify that context-aware, preferably automated - or at worst, manual - output escaping protects against stored XSS.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case "40026": //dom based xss
-              alert.setName("");
+              description = alert.getDescription()
+              alert.setName("5.3.3 Verify that context-aware, preferably automated - or at worst, manual - output escaping protects against dom-based XSS.");
+              alert.setDescription('Verify that context-aware, preferably automated - or at worst, manual - output escaping protects against dom-based XSS.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case "40015": //ldap injection
-              alert.setName("");
+              description = alert.getDescription()
+              alert.setName("5.3.7 Verify that the application protects against LDAP injection vulnerabilities.");
+              alert.setDescription('Verify that the application protects against LDAP injection vulnerabilities, or that specific security controls to prevent LDAP injection have been implemented.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case "90020": //remote os command injection
-              alert.setName("");
+              description = alert.getDescription()
+              alert.setName("5.3.8 Verify that the application protects against OS command injection.");
+              alert.setDescription('Verify that the application protects against OS command injection and that operating system calls use parameterized OS queries or use contextual command line output encoding.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
-            case "40008": //parameter tampering
-              alert.setName("");
+            case "20014": //parameter pollution
+              description = alert.getDescription()
+              alert.setName("5.1.2 Verify that frameworks protect against mass parameter assignment attacks.");
+              alert.setDescription('Verify that frameworks protect against mass parameter assignment attacks, or that the application has countermeasures to protect against unsafe parameter assignment, such as marking fields private or similar.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case "90024": //generic padding oracle attack
-              alert.setName("");
+              description = alert.getDescription()
+              alert.setName("6.2.1 Verify that all cryptographic modules fail securely, and errors are handled in a way that does not enable Padding Oracle attacks.");
+              alert.setDescription('Verify that all cryptographic modules fail securely, and errors are handled in a way that does not enable Padding Oracle attacks.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case "4": //rfi
-              alert.setName("");
+              description = alert.getDescription()
+              alert.setName("5.3.9 Verify that the application protects against Local File Inclusion (LFI) or Remote File Inclusion (RFI) attacks.");
+              alert.setDescription('Verify that the application protects against Local File Inclusion (LFI) or Remote File Inclusion (RFI) attacks.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case "90023": //xml external entity attack
-              alert.setName("");
+              description = alert.getDescription()
+              alert.setName("5.5.2 Verify that the application correctly restricts XML parsers.");
+              alert.setDescription('Verify that the application correctly restricts XML parsers to only use the most restrictive configuration possible and to ensure that unsafe features such as resolving external entities are disabled to prevent XML eXternal Entity (XXE) attacks.' + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case "10003": //up to date components
@@ -84,7 +124,7 @@ if (extAlert != null) {
               alert.setName('14.2.1 Verify that all components are up to date, preferably using a dependency checker during build or compile time.')
               extAlert.updateAlert(alert);
               break;
-            case "10033": //directory browsing
+            case "0": //directory browsing
               description = alert.getDescription()
               alert.setDescription('A directory listing was found, which may reveals sensitive data.')
               alert.setName('4.3.2 Verify that directory browsing is disabled unless deliberately desired. Additionally, applications should not allow discovery or disclosure of file or directory metadata, such as Thumbs.db, .DS_Store, .git or .svn folders.')
