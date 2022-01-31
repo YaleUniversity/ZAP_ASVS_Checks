@@ -1,73 +1,63 @@
 """
-The scanNode function will typically be called once for every page 
-The scan function will typically be called for every parameter in every URL and Form for every page 
 
-Note that new active scripts will initially be disabled
-Right click the script in the Scripts tree and select "enable"  
+Script testing 5.3.2 control from OWASP ASVS 4.0:
+'Verify that output encoding preserves the user's chosen character set and locale, 
+such that any Unicode character point is valid and safely handled.'
+
+The script will raise an alert if the response header "Content-Type" does not retatin 
+the charcter set specified in the request header "Accept"
+
 """
 from org.parosproxy.paros.network import HttpRequestHeader
 
 def changeAcceptHeader(msg, new_mime):
   header_to_list = str(msg.getRequestHeader()).split()
+  print(header_to_list)
   accept_index = header_to_list.index('Accept:')
   header_to_list[accept_index + 1] = new_mime
-
-  data = ' '.join(header_to_list)
   new_header = HttpRequestHeader(data)
   return new_header
 
 
 def scanNode(sas, msg):
-  # Debugging can be done using print like this
-  print('scan called for url=' + msg.getRequestHeader().getURI().toString());
-  '''
-  method = msg.getRequestHeader().getMethod()
-  url = msg.getRequestHeader().getURI()
-  version = "1.1"
-  params = "Accept: "
-'''
-  # Copy requests before reusing them
-  msg = msg.cloneRequest();
-  new_header = changeAcceptHeader(msg, 'text/html')
-  
-  msg.setRequestHeader(new_header)
-  print(msg)
-  print(msg.getRequestHeader)
+  #alert parameters
+  alertRisk= 0
+  alertConfidence = 1
+  alertTitle = "5.3.2 Verify that output encoding preserves the user's chosen character set and locale."
+  alertDescription = "Verify that output encoding preserves the user's chosen character set and locale, such that any Unicode character point is valid and safely handled."
+  url = msg.getRequestHeader().getURI().toString()
+  alertParam = ""
+  alertAttack = ""
+  alertInfo = ""
+  alertSolution = ""
+  alertEvidence = "" 
+  cweID = 176
+  wascID = 0
 
+  character_sets = ["ISO-8859-1", "ISO-8859-15", "Latin-1", "Windows-1252", "UTF-8", "UTF-16", "UTF-32"]
+  request_header = str(msg.getRequestHeader().getHeader("Accept"))
 
-  # sendAndReceive(msg, followRedirect, handleAntiCSRFtoken)
-  sas.sendAndReceive(msg, False, False);
+  if (request_header != None and ("text" in request_header)):
+    print("old:" + request_header)
+    for set in character_sets:
+      value = "text/html;charset=" + set 
+      new_header = changeAcceptHeader(msg, value)
+      
+      if new_header != None:
+        
+        msg = msg.cloneRequest();
 
-  # Test the response here, and make other requests as required
-  #reponse_header = msg.getResponseHeader().getHeader("Content-Type")
-'''
-  if ("test" in response_header):
-    sas.raiseAlert(1, 1, 'Active Vulnerability title', 'Full description', 
-    msg.getRequestHeader().getURI().toString(), 
-      param, 'Your attack', 'Any other info', 'The solution ', '', 0, 0, msg);'''
+        msg.setRequestHeader(new_header)
+        new = str(msg.getRequestHeader().getHeader("Accept"))
+
+        sas.sendAndReceive(msg, False, False);
+ 
+        response_header = str(msg.getResponseHeader().getHeader("Content-Type"))
+
+        if (response_header != None and (set not in response_header)):
+          alertEvidence = "Character set used: " + set
+          sas.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
+          url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
 
 def scan(sas, msg, param, value):
-  # Debugging can be done using print like this
-  print('scan called for url=' + msg.getRequestHeader().getURI().toString() + 
-    ' param=' + param + ' value=' + value);
-
-  # Copy requests before reusing them
-  msg = msg.cloneRequest();
-
-  # setParam (message, parameterName, newValue)
-  sas.setParam(msg, param, 'Your attack');
-
-  # sendAndReceive(msg, followRedirect, handleAntiCSRFtoken)
-  sas.sendAndReceive(msg, False, False);
-
-  # Test the response here, and make other requests as required
-  if (True):
-  	# Change to a test which detects the vulnerability
-    # raiseAlert(risk, int confidence, String name, String description, String uri, 
-    #		String param, String attack, String otherInfo, String solution, String evidence, 
-    #		int cweId, int wascId, HttpMessage msg)
-    # risk: 0: info, 1: low, 2: medium, 3: high
-    # confidence: 0: false positive, 1: low, 2: medium, 3: high
-    sas.raiseAlert(1, 1, 'Active Vulnerability title', 'Full description', 
-    msg.getRequestHeader().getURI().toString(), 
-      param, 'Your attack', 'Any other info', 'The solution ', '', 0, 0, msg);
+  pass
