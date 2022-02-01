@@ -10,16 +10,8 @@ the charcter set specified in the request header "Accept"
 """
 from org.parosproxy.paros.network import HttpRequestHeader
 
-def changeAcceptHeader(msg, new_mime):
-  header_to_list = str(msg.getRequestHeader()).split()
-  print(header_to_list)
-  accept_index = header_to_list.index('Accept:')
-  header_to_list[accept_index + 1] = new_mime
-  new_header = HttpRequestHeader(data)
-  return new_header
-
-
 def scanNode(sas, msg):
+
   #alert parameters
   alertRisk= 0
   alertConfidence = 1
@@ -34,30 +26,33 @@ def scanNode(sas, msg):
   cweID = 176
   wascID = 0
 
+  #list of character sets used in request
   character_sets = ["ISO-8859-1", "ISO-8859-15", "Latin-1", "Windows-1252", "UTF-8", "UTF-16", "UTF-32"]
-  request_header = str(msg.getRequestHeader().getHeader("Accept"))
 
-  if (request_header != None and ("text" in request_header)):
-    print("old:" + request_header)
-    for set in character_sets:
-      value = "text/html;charset=" + set 
-      new_header = changeAcceptHeader(msg, value)
-      
-      if new_header != None:
-        
-        msg = msg.cloneRequest();
+  #clone message before sending
+  msg = msg.cloneRequest();
 
-        msg.setRequestHeader(new_header)
-        new = str(msg.getRequestHeader().getHeader("Accept"))
+  #loop through each character set and include it in request header
+  for set in character_sets:
+   
+    #using text/html as static MIME type
+    value = "text/html; charset=" + set
 
-        sas.sendAndReceive(msg, False, False);
- 
-        response_header = str(msg.getResponseHeader().getHeader("Content-Type"))
+    #set Accept header in request to chosen character set
+    msg.getRequestHeader().setHeader("Accept", value)
+  
+    #send message
+    sas.sendAndReceive(msg, False, False);
 
-        if (response_header != None and (set not in response_header)):
-          alertEvidence = "Character set used: " + set
-          sas.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
-          url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
+    #get 'Content-Type' header from response 
+    response_header = str(msg.getResponseHeader().getHeader("Content-Type"))
+
+  
+    #if the 'Content-Type' header does not incude the specfied character set, raise alert
+    if (response_header != None and (set not in response_header)):
+      alertEvidence = "Character set used: " + set
+      sas.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
+      url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
 
 def scan(sas, msg, param, value):
   pass
