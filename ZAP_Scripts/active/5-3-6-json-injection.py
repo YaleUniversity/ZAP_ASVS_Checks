@@ -40,11 +40,10 @@ def scan(sas, msg, param, value):
   sas.sendAndReceive(msg, False, False);
 
   response_header = msg.getResponseHeader().getHeader("Content-Type")
-  print(response_header)
   if ((response_header != None) and "application/json" in response_header):
-    print("body ")
     for element in common_json_elements:
-      attack = "json attack" + elment
+      attack = "json attack" + element
+      print("attack ", attack)
       # setParam (message, parameterName, newValue)
       sas.setParam(msg, param, attack);
 
@@ -53,7 +52,7 @@ def scan(sas, msg, param, value):
 
 
       # Test the responses and raise alerts as below
-      if (attack in msg.getRequestBody()):
+      if (attack in str(msg.getRequestBody())):
         alertEvidence = element + " not sanatized"
         sas.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
         url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
