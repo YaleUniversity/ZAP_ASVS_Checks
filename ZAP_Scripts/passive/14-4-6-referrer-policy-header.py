@@ -6,7 +6,7 @@ sensitive information in the URL through the Referer header to untrusted
 parties.'
 
 The script will raise an alert if 'Referrer-Policy' header is not present or does not contain 'strict-origin-when-cross-origin option'.
-
+ 
 """
 
 def scan(ps, msg, src):

@@ -7,7 +7,7 @@ detailed version information of system components.'
 The script will raise an alert if
 	1. Server
 	2. X-Powered-By
-headers are present
+headers are present 
 
 """
 

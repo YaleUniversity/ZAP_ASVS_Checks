@@ -8,7 +8,7 @@ Note: this script is almost identical to 3-1-1-token-in-url.py except, it contai
 
 The script will raise an alert if the following are found in the URL:
 	1. strings: "PHPSESSID", "JSESSIONID", "CFID", "CFTOKEN", "ASP.NET_SESSIONID", "ID", "COOKIE", "JWT", "SESSION", "KEY", "API"]
-	2. actual token value from application (if sent)
+	2. actual token value from application (if sent) 
 
 """
 import ast

@@ -7,7 +7,7 @@ parameters.'
 The script will raise an alert if the following are found in the URL:
 	1. strings: "PHPSESSID", "JSESSIONID", "CFID", "CFTOKEN", "ASP.NET_SESSIONID", "ID", "COOKIE", "JWT", "SESSION"
 	2. actual token value from application (if sent)
-
+ 
 """
 import ast
 

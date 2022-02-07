@@ -5,7 +5,7 @@ Script testing 8.2.1 control from OWASP ASVS 4.0:
 data is not cached in modern browsers.'
 
 The script will raise an alert if 'Cache-Control' and 'Pragma' headers are not present. 
-
+ 
 """
 
 def scan(ps, msg, src):

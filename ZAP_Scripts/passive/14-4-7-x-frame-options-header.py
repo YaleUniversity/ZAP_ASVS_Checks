@@ -9,7 +9,7 @@ ancestors and X-Frame-Options response headers.'
 The script will raise an alert if 
 	1. X-Frame-Options: deny or X-Frame-Options: sameorigin
 	2. Content-Security-Policy: frame-ancestors ‘none’ or Content-Security-Policy: frame-ancestors
-is not present. 
+is not present.  
 
 """
 

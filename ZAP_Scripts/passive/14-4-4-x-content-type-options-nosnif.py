@@ -4,7 +4,7 @@ Script testing 14.4.4 control from OWASP ASVS 4.0:
 'Verify that all responses contain a X-Content-Type-Options: nosniff header.'
 
 The script will raise an alert if 'X-Content-Type-Options: nosniff header is not present. 
-
+ 
 """
 
 def scan(ps, msg, src):

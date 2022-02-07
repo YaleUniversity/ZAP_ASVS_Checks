@@ -7,7 +7,7 @@ injection vulnerabilities.'
 
 The script will raise an alert if:
 	1. There is no Content-Security-Policy or Content-Security-Policy-Report-Only header
-	2. X-Content-Security-Policy or X-WebKit-CSP is used
+	2. X-Content-Security-Policy or X-WebKit-CSP is used 
 
 """
 #return valid header from ["Content-Security-Policy", "Content-Security-Policy-Report-Only", "X-Content-Security-Policy", "X-WebKit-CSP"]

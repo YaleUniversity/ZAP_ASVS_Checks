@@ -6,7 +6,7 @@ and for all subdomains, such as Strict-Transport-Security: max-
 age=15724800; includeSubdomains.'
 
 The script will raise an alert if 'Strict-Transport-Security' header is not present. 
-
+ 
 """
 
 def scan(ps, msg, src):

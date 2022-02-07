@@ -4,9 +4,9 @@ Script testing 14.4.2 control from OWASP ASVS 4.0:
 'Verify that all API responses contain a Content-Disposition: attachment;
 filename="api.json" header (or other appropriate filename for the content
 type).'
-
+ 
 The script will raise an alert if 'Content-Disposition' header is present but not follow the format - Content-Disposition: attachment; filename=
-
+ 
 """
 
 def scan(ps, msg, src):
