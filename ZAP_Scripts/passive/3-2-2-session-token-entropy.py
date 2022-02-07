@@ -41,7 +41,7 @@ def scan(ps, msg, src):
   alertParam = ""
   alertAttack = ""
   alertInfo = "https://owasp.org/www-community/vulnerabilities/Insufficient_Session-ID_Length"
-  alertSolution = "Ensure any session token is at least 128 bits long." + "/n" + "Note: a single token that does not meet the entropy requirement is not sufficient to show the token generation is at 
+  alertSolution = "Ensure any session token is at least 128 bits long." + "\n" + "Note: a single token that does not meet the entropy requirement is not sufficient to show the token generation is insecure."
   alertEvidence = "" 
   cweID = 331
   wascID = 0
@@ -51,6 +51,6 @@ def scan(ps, msg, src):
   if token: #if token is not None
     entropy = calculateEntropy(token)
     if (entropy < 128): #raise alert if entropy is less than 128
-      alertEvidence = "Token " + token + "/n" + "Entropy " + entropy
+      alertEvidence = "Token " + str(token) + "/n" + "Entropy " + entropy
       ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);

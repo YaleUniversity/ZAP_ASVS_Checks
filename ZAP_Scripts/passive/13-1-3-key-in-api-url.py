@@ -35,7 +35,7 @@ def scan(ps, msg, src):
   alertParam = ""
   alertAttack = ""
   alertInfo = "https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html"
-  alertSolution = "Remove session tokens or api key from URL: " + url
+  alertSolution = "Please review the following url for session tokens or api keys: " + url
   alertEvidence = url 
   cweID = 116
   wascID = 0

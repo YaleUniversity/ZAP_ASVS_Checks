@@ -11,8 +11,7 @@ The script will raise an alert if 'eval' or 'include' is present in the response
 
 def scan(ps, msg, src):
 
-  #get response body
-  body = str(msg.getResponseBody())
+
 
   #alert parameters
   alertRisk= 0
@@ -27,8 +26,14 @@ def scan(ps, msg, src):
   alertEvidence = "" 
   cweID = 95
   wascID = 0
+
+  try:
+    #get response body
+    body = str(msg.getResponseBody())
   
-  #if 'eval' or 'include' is in response body, raise alert
-  if (body != "None" and ("eval" in body.lower() or "include" in body.lower())):
-    ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
+    #if 'eval' or 'include' is in response body, raise alert
+    if (body != "None" and ("eval(" in body.lower() or "include(" in body.lower())):
+      ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
+  except:
+    pass
