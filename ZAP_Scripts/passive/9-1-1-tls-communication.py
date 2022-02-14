@@ -6,6 +6,8 @@ Script testing 9.1.1 control from OWASP ASVS 4.0:
 The script will raise an alert if the client is able to connect the application through http which has no encryption.
  
 """
+import re
+
 def scan(ps, msg, src):
 
   #alert parameters
@@ -17,13 +19,16 @@ def scan(ps, msg, src):
   alertParam = ""
   alertAttack = ""
   alertInfo = "https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Protection_Cheat_Sheet.html"
-  alertSolution = "A request was made with HTTP: " + url + "\n" + "Ensure at least version TLSv1.2 is used for client connectivity."
+  alertSolution = "A request was made with HTTP ---> " + url + "\n" + "Ensure at least version TLSv1.2 is used for client connectivity."
   alertEvidence = "" 
   cweID = 319
   wascID = 0
 
+  code = str(msg.getResponseHeader().getStatusCode()) # get status code
+  pattern = re.compile(r"2[0-9]{2}") #regular expression for codes 200-209
   
-  #if 'Cache-Control' and 'Pragma' headers are not present
-  if ("http://" in url):
+  #if url contains http and msg returns a successful status code, raise alert
+  if ("http://" in url and re.search(pattern,code)):
+    alertEvidence = "Code: " + code
     ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
       url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
