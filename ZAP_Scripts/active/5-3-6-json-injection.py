@@ -38,6 +38,7 @@ def scan(sas, msg, param, value):
   msg = msg.cloneRequest();
   sas.sendAndReceive(msg, False, False);
 
+  #check if msg response includes json object
   response_header = msg.getResponseHeader().getHeader("Content-Type")
   if ((response_header != None) and "application/json" in response_header):
     for element in common_json_elements:
@@ -49,9 +50,13 @@ def scan(sas, msg, param, value):
       # sendAndReceive(msg, followRedirect, handleAntiCSRFtoken)
       sas.sendAndReceive(msg, False, False);
 
-      # Test the responses and raise alerts as below
-      if (attack in str(msg.getResponseBody())):
-        alertEvidence = element + " not sanatized"
-        sas.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
-        url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
-
+      #check if attack payload is reflected back in the response body, if so raise alert
+      try: # use try/except to avoid parsing issues from invalid response bodies
+        body = str(msg.getResponseBody())
+        if (attack in body):
+          alertAttack = attack
+          alertEvidence = attack + " found in Response Body"
+          sas.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
+          url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
+      except:
+        pass
