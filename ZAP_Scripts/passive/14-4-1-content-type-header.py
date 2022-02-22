@@ -12,14 +12,23 @@ The script will raise an alert if:
 
 """
 
-#if header contains "text/", "/+xml", or "application/xml" but does not use UTF-8, ISO-8859-1, return True
+#return true if:
+#xml is in the header but utf-8 and utf-16 are not
+#text is in the header but utf-8, utf-16 and iso-8859-1 are not
 def useSafeCharacters(header):
-  types = ["text/", "/+xml", "application/xml"]
-  for t in types:
-    if (t in header and (("charset=utf-8" not in header) and "iso-8859-1" not in header)):
-      return True
+  not_utf8 = "utf-8" not in header
+  not_utf16 = "utf-16" not in header
+  not_iso88591 = "iso-8859-1" not in header
+  text = "text/" in header
+  xml = "xml"  in header
+  
+  if xml and (not_utf8 and not_utf16):
+    return True
+  elif text and ((not_utf8 and not_utf16) and not_iso88591):
+    return True
   return False
 
+ 
 def scan(ps, msg, src):
 
   #find "Content-Type" header
@@ -33,8 +42,8 @@ def scan(ps, msg, src):
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html"
-  solutions = ["Add 'Content-Type' header in HTTP response.", "Specify a safe character set (e.g., UTF-8, ISO-8859-1) if the content types are text/*, /+xml and application/xml"]
+  alertInfo = "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html" + "\n" + "https://www.w3.org/2006/02/son-of-3023/draft-murata-kohn-lilley-xml-04.html
+  solutions = ["Add 'Content-Type' header in HTTP response.", "Specify a safe character set (UTF-8, UTF-16) if the content types are /+xml or application/xml and (UTF-8, UTF-16, ISO-8859-1) if the content type is text/*"]
   alertSolution = ""
   alertEvidence = "Content-Type: " + header
   cweID = 173

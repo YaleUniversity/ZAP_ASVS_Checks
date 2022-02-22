@@ -33,27 +33,30 @@ def scan(sas, msg, param, value):
 
   common_json_elements = ["[", "]", "{", "}", ",", ":", '"']
 
-  # Debugging can be done using print like this
-  #print('scan called for url=' + msg.getRequestHeader().getURI().toString())
+
   # Copy requests before reusing them
   msg = msg.cloneRequest();
   sas.sendAndReceive(msg, False, False);
 
+  #check if msg response includes json object
   response_header = msg.getResponseHeader().getHeader("Content-Type")
   if ((response_header != None) and "application/json" in response_header):
     for element in common_json_elements:
       attack = "json attack" + element
-      print("attack ", attack)
+      
       # setParam (message, parameterName, newValue)
       sas.setParam(msg, param, attack);
 
       # sendAndReceive(msg, followRedirect, handleAntiCSRFtoken)
       sas.sendAndReceive(msg, False, False);
 
-
-      # Test the responses and raise alerts as below
-      if (attack in str(msg.getRequestBody())):
-        alertEvidence = element + " not sanatized"
-        sas.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
-        url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
-
+      #check if attack payload is reflected back in the response body, if so raise alert
+      try: # use try/except to avoid parsing issues from invalid response bodies
+        body = str(msg.getResponseBody())
+        if (attack in body):
+          alertAttack = attack
+          alertEvidence = attack + " found in Response Body"
+          sas.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
+          url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
+      except:
+        pass
