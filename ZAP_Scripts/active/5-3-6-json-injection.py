@@ -25,7 +25,7 @@ def scan(sas, msg, param, value):
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = ""
+  alertInfo = "https://owasp.org/www-project-json-sanitizer/migrated_content"
   alertSolution = ""
   alertEvidence = "" 
   cweID = 830

@@ -1,8 +1,11 @@
 """
 
-Script testing 5.2.8 control from OWASP ASVS 4.0:
+Script testing 5.2.8 and 5.2.5 controls from OWASP ASVS 4.0:
 'Verify that the application sanitizes, disables, or sandboxes user-supplied scriptable or expression 
 template language content, such as Markdown, CSS or XSL stylesheets, BBCode, or similar.'
+
+'Verify that the application protects against template injection attacks by 
+ensuring that any user input being included is sanitized or sandboxed.'
 
 This script will attempt to inject various template language payloads to see if they return in the response body without being sanatized or escaped or,
 causes the server to return an error.
@@ -16,12 +19,12 @@ def scan(sas, msg, param, value):
   #alert parameters
   alertRisk= 0
   alertConfidence = 1
-  alertTitle = "5.2.8 Verify that the application sanitizes, disables, or sandboxes template language content."
-  alertDescription = "Verify that the application sanitizes, disables, or sandboxes user-supplied scriptable or expression template language content, such as Markdown, CSS or XSL stylesheets, BBCode, or similar."
+  alertTitle = "5.2.8 & 5.2.5 Verify that the application sanitizes, disables, or sandboxes template language content."
+  alertDescription = "Verify that the application sanitizes, disables, or sandboxes user-supplied scriptable or expression template language content, such as Markdown, CSS or XSL stylesheets, BBCode, or similar." + "\n" + "5.2.5 Verify that the application protects against template injection attacks by ensuring that any user input being included is sanitized or sandboxed."
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = ""
+  alertInfo = "https://owasp.org/www-project-java-html-sanitizer/"
   alertSolution = ""
   alertEvidence = "" 
   cweID = 94

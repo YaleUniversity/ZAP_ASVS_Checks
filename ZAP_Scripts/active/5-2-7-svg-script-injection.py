@@ -22,7 +22,7 @@ def scan(sas, msg, param, value):
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = ""
+  alertInfo = "https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion_Cheat_Sheet.html#svg-object-tag"
   alertSolution = ""
   alertEvidence = "" 
   cweID = 159
