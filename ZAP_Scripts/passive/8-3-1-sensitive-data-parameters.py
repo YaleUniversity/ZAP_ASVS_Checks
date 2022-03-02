@@ -7,7 +7,7 @@ headers, and that query string parameters from any HTTP verb do not contain
 sensitive data.'
 
 
-The script will raise an alert if
+The script will raise an alert if any parameter value matches the regex for ssn, emails, file paths, zip codes or ip addresses.
  
 """
 import re
