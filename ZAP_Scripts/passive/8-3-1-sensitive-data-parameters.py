@@ -10,6 +10,8 @@ sensitive data.'
 The script will raise an alert if
  
 """
+import re
+
 def get_parameters(url):
   
   try:
@@ -37,17 +39,29 @@ def scan(ps, msg, src):
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = ""
+  alertInfo = "https://owasp.org/www-community/vulnerabilities/Information_exposure_through_query_strings_in_url"
   alertSolution = ""
   alertEvidence = "" 
   cweID = 319
   wascID = 0
 
-  parameters = str(get_parameters(url))
-  if parameters != "":
-    print(parameters)
- 
+  parameters = get_parameters(url)
   
-  if (False):
-    ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
-      url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
+
+  ssn = re.compile(r"[0-9]{3}-[0-9]{2}-[0-9]{4}")
+  email = re.compile(r"^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$")
+  file_path = re.compile(r"\\[^\\]+$")
+  zip_code = re.compile(r"^((\d{5}-\d{4})|(\d{5})|([A-Z]\d[A-Z]\s\d[A-Z]\d))$")
+  ip = re.compile(r"^\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}$")
+
+  patterns = [ssn, email, file_path, zip_code, ip]
+  if (parameters != ""):
+    for par in parameters:
+      for pat in patterns:
+        print(par, pat)
+        if (re.search(pat,par)):
+          alertParam = par
+          alertSolution = pat + " = " + par
+          alertInfo = "Possible " + pat + " found in url parameter."
+          ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
+          url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
