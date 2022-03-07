@@ -53,8 +53,9 @@ def scan(ps, msg, src):
   file_path = re.compile(r"\\[^\\]+$")
   zip_code = re.compile(r"^((\d{5}-\d{4})|(\d{5})|([A-Z]\d[A-Z]\s\d[A-Z]\d))$")
   ip = re.compile(r"^\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}$")
+  netid = re.compile(r"^([a-z]{2,3})([2-9]{1,5})$")
 
-  patterns = [ssn, email, file_path, zip_code, ip]
+  patterns = [ssn, email, file_path, zip_code, ip, netid]
   if (parameters != ""):
     for par in parameters:
       for pat in patterns:
