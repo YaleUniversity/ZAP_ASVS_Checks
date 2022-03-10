@@ -9,7 +9,7 @@ If it does, it will try injecting various common JSON elements like [, ], {, }, 
 The payload will include a key word along with the element. This way, when we check the response body for the payload, we can reudence 
 the number of false positives from properly formatted JSON data.
 
-The script will raise an alert if the payload is echoed in the response body (no sanitization or encoding)
+The script will raise an alert if the payload is echoed in the response body (no sanitization or encoding) or the server returns an error.
 
 """
 
@@ -25,7 +25,7 @@ def scan(sas, msg, param, value):
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = ""
+  alertInfo = "https://owasp.org/www-project-json-sanitizer/migrated_content"
   alertSolution = ""
   alertEvidence = "" 
   cweID = 830
@@ -50,7 +50,9 @@ def scan(sas, msg, param, value):
       # sendAndReceive(msg, followRedirect, handleAntiCSRFtoken)
       sas.sendAndReceive(msg, False, False);
 
-      #check if attack payload is reflected back in the response body, if so raise alert
+      code = str(msg.getResponseHeader().getStatusCode()) # get status code
+
+      #check if attack payload is reflected back in the response body or server errror, if so raise alert
       try: # use try/except to avoid parsing issues from invalid response bodies
         body = str(msg.getResponseBody())
         if (attack in body):
@@ -58,5 +60,11 @@ def scan(sas, msg, param, value):
           alertEvidence = attack + " found in Response Body"
           sas.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
           url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
+        elif (code == '500'): #check for server error code (500)
+          alertAttack = attack
+          alertEvidence = "Status Code: " + code + "\n" + "Attack triggered server error."
+          sas.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
+          url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
+          
       except:
         pass

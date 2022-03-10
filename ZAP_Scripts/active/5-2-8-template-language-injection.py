@@ -1,10 +1,14 @@
 """
 
-Script testing 5.2.8 control from OWASP ASVS 4.0:
+Script testing 5.2.8 and 5.2.5 controls from OWASP ASVS 4.0:
 'Verify that the application sanitizes, disables, or sandboxes user-supplied scriptable or expression 
 template language content, such as Markdown, CSS or XSL stylesheets, BBCode, or similar.'
 
-This script will attempt to inject various template language payloads to see if they return in the response body without being sanatized or escaped.
+'Verify that the application protects against template injection attacks by 
+ensuring that any user input being included is sanitized or sandboxed.'
+
+This script will attempt to inject various template language payloads to see if they return in the response body without being sanatized or escaped or,
+causes the server to return an error.
 
 """
 
@@ -15,12 +19,12 @@ def scan(sas, msg, param, value):
   #alert parameters
   alertRisk= 0
   alertConfidence = 1
-  alertTitle = "5.2.8 Verify that the application sanitizes, disables, or sandboxes template language content."
-  alertDescription = "Verify that the application sanitizes, disables, or sandboxes user-supplied scriptable or expression template language content, such as Markdown, CSS or XSL stylesheets, BBCode, or similar."
+  alertTitle = "5.2.8 & 5.2.5 Verify that the application sanitizes, disables, or sandboxes template language content."
+  alertDescription = "Verify that the application sanitizes, disables, or sandboxes user-supplied scriptable or expression template language content, such as Markdown, CSS or XSL stylesheets, BBCode, or similar." + "\n" + "5.2.5 Verify that the application protects against template injection attacks by ensuring that any user input being included is sanitized or sandboxed."
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = ""
+  alertInfo = "https://owasp.org/www-project-java-html-sanitizer/"
   alertSolution = ""
   alertEvidence = "" 
   cweID = 94
@@ -48,12 +52,19 @@ def scan(sas, msg, param, value):
     # sendAndReceive(msg, followRedirect, handleAntiCSRFtoken)
     sas.sendAndReceive(msg, False, False);
 
-    #check if attack payload is reflected back in the response body, if so raise alert
+    code = str(msg.getResponseHeader().getStatusCode()) # get status code
+
+    #check if attack payload is reflected back in the response body or server errror, if so raise alert
     try: # use try/except to avoid parsing issues from invalid response bodies
       body = str(msg.getResponseBody())
       if (attack in body):
         alertAttack = attack
         alertEvidence = pair[0] + " Payload: " + attack + " found in Response Body"
+        sas.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
+        url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
+      elif (code == '500'): #check for server error code (500)
+        alertAttack = attack
+        alertEvidence = "Status Code: " + code + "\n" + "Attack triggered server error."
         sas.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
         url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
     except:
