@@ -59,7 +59,6 @@ def scan(ps, msg, src):
   if (parameters != ""):
     for par in parameters:
       for pat in patterns:
-        print(par, pat)
         if (re.search(pat,par)):
           alertParam = par
           alertSolution = pat + " = " + par
