@@ -42,7 +42,7 @@ def scan(ps, msg, src):
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html" + "\n" + "https://www.w3.org/2006/02/son-of-3023/draft-murata-kohn-lilley-xml-04.html
+  alertInfo = "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html"
   solutions = ["Add 'Content-Type' header in HTTP response.", "Specify a safe character set (UTF-8, UTF-16) if the content types are /+xml or application/xml and (UTF-8, UTF-16, ISO-8859-1) if the content type is text/*"]
   alertSolution = ""
   alertEvidence = "Content-Type: " + header

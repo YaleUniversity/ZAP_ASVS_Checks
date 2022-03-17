@@ -1,8 +1,11 @@
 """
 
-Script testing 5.3.6 control from OWASP ASVS 4.0:
+Script testing 5.3.6 and 5.5.3 controls from OWASP ASVS 4.0:
 'Verify that the application protects against JSON injection attacks, 
 JSON eval attacks, and JavaScript expression evaluation.'
+
+'Verify that deserialization of untrusted data is avoided or is protected in
+ both custom code and third-party libraries (such as JSON, XML and YAML parsers).'
 
 The scan function will check if a message returns JSON data by checking for "application/json" in the Content-Type response header.
 If it does, it will try injecting various common JSON elements like [, ], {, }, etc... that might be used in a JSON injection attack.
@@ -20,12 +23,12 @@ def scan(sas, msg, param, value):
   #alert parameters
   alertRisk= 0
   alertConfidence = 1
-  alertTitle = "5.3.6 Verify that the application protects against JSON injection attacks, JSON eval attacks, and JavaScript expression evaluation."
-  alertDescription = "Verify that the application protects against JSON injection attacks, JSON eval attacks, and JavaScript expression evaluation."
+  alertTitle = "5.3.6 & 5.5.3 Verify that the application protects against JSON injection attacks, JSON eval attacks, and JavaScript expression evaluation."
+  alertDescription = " 5.3.6 Verify that the application protects against JSON injection attacks, JSON eval attacks, and JavaScript expression evaluation." + "\n" " 5.5.3 Verify that deserialization of untrusted data is avoided or is protected in both custom code and third-party libraries (such as JSON, XML and YAML parsers)."
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
-  alertInfo = "https://owasp.org/www-project-json-sanitizer/migrated_content"
+  alertInfo = "https://owasp.org/www-project-json-sanitizer/migrated_content" + "\n" + "https://owasp.org/www-community/vulnerabilities/Deserialization_of_untrusted_data"
   alertSolution = ""
   alertEvidence = "" 
   cweID = 830

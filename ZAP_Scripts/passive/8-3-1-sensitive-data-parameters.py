@@ -45,24 +45,28 @@ def scan(ps, msg, src):
   cweID = 319
   wascID = 0
 
+  #get parameters from url
   parameters = get_parameters(url)
-  
 
+  #regular expressions for sensitive data  
   ssn = re.compile(r"[0-9]{3}-[0-9]{2}-[0-9]{4}")
   email = re.compile(r"^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$")
   file_path = re.compile(r"\\[^\\]+$")
   zip_code = re.compile(r"^((\d{5}-\d{4})|(\d{5})|([A-Z]\d[A-Z]\s\d[A-Z]\d))$")
   ip = re.compile(r"^\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}$")
   netid = re.compile(r"^([a-z]{2,3})([2-9]{1,5})$")
+  version = re.compile(r"[a-zA-Z]{1}\d{1,2}\.\d{1,2}\.\d{1,3}")
 
-  patterns = [ssn, email, file_path, zip_code, ip, netid]
+  patterns = [(ssn, "ssn"), (email, "email"), (file_path, "file path"), (zip_code, "zip code"), (ip, "ip address"), (netid, "netid"), (version, "version")]
+
+  #if there are parameters, loop through them and the patters
   if (parameters != ""):
     for par in parameters:
       for pat in patterns:
-        print(par, pat)
-        if (re.search(pat,par)):
+        match = re.search(pat[0],par)
+  #if pattern if found in parameter, raise alert
+        if (match):
           alertParam = par
-          alertSolution = pat + " = " + par
-          alertInfo = "Possible " + pat + " found in url parameter."
+          alertEvidence = "Possible " + pat[1] + " found in url parameter: " + match.group(0)
           ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
           url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
