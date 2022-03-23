@@ -1,4 +1,5 @@
 //Script testing the following controls from OWASP ASVS 4.0:
+//5.3.4
 //5.3.5
 //5.3.10
 //5.3.3
@@ -36,8 +37,8 @@ if (extAlert != null) {
           switch (id){ //set up cases for each id to change alert format to match ASVS
             case 40018: //sql injection
               description = alert.getDescription()
-              alert.setName("5.3.5 Verify that where parameterized or safer mechanisms are not present, context-specific output encoding is used.");
-              alert.setDescription('Verify that where parameterized or safer mechanisms are not present, context-specific output encoding is used to protect against injection attacks, such as the use of SQL escaping to protect against SQL injection.' + "\n" + description)
+              alert.setName("5.3.4 & 5.3.5 Verify that where parameterized or safer mechanisms are not present, context-specific output encoding is used.");
+              alert.setDescription("5.3.4 Verify that data selection or database queries (e.g. SQL, HQL, ORM, NoSQL) use parameterized queries, ORMs, entity frameworks, or are otherwise protected from database injection attacks." + "\n" +"5.3.5 Verify that where parameterized or safer mechanisms are not present, context-specific output encoding is used to protect against injection attacks, such as the use of SQL escaping to protect against SQL injection." + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case 90029: //soap xml injection
