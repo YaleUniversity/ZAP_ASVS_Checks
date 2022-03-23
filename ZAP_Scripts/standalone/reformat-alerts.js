@@ -109,8 +109,8 @@ if (extAlert != null) {
               break;
             case 4: //rfi
               description = alert.getDescription()
-              alert.setName("5.3.9 Verify that the application protects against Local File Inclusion (LFI) or Remote File Inclusion (RFI) attacks.");
-              alert.setDescription('Verify that the application protects against Local File Inclusion (LFI) or Remote File Inclusion (RFI) attacks.' + "\n" + description)
+              alert.setName("5.3.9 & 13.1.1 Verify that the application protects against Local File Inclusion (LFI) or Remote File Inclusion (RFI) attacks.");
+              alert.setDescription("5.3.9 Verify that the application protects against Local File Inclusion (LFI) or Remote File Inclusion (RFI) attacks." + "\n" + "13.1.1 Verify that all application components use the same encodings and parsers to avoid parsing attacks that exploit different URI or file parsing behavior that could be used in SSRF and RFI attacks." + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case 90023: //xml external entity attack
