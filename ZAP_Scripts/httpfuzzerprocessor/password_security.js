@@ -6,6 +6,8 @@ Script testing the following password security controls from OWASP ASVS 4.0:
 
 2.1.2 - Verify that passwords of at least 64 characters are permitted, and that passwords of more than 128 characters are denied.
 
+2.1.4 - Verify that any printable Unicode character, including language neutral characters such as spaces and Emojis are permitted in passwords.
+
 2.1.7 - Verify that passwords submitted during account registration, login, and password change are checked against a set of breached passwords 
         either locally (such as the top 1,000 or 10,000 most common passwords which match the system's password policy) or using an external API. 
         If using an API a zero knowledge proof or other mechanism should be used to ensure that the plain text password is not sent or used in verifying the breach status of the password. 
@@ -26,6 +28,7 @@ Once the fuzzer is run with the provided wordlist, this script will check the re
 	If the response status code is NOT successful,  the script will check the payload and add a custom status code if following criteria apply (Note: these conditions are more prone to false positives):
 		1. Payload is between 64 and 128 characters (2.1.2)
 		2. Payload is valid length and contains special character (2.1.9)
+		3. Payload is valid length and contains a space or emoji (2.1.4)
 
 */
 
@@ -37,6 +40,13 @@ var count = 1;
 function containsSpecial(str){
 	var regex = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
 	return regex.test(str);
+}
+
+//function to determine if string contains an emoji or space since the only payloads in the wordlist that contain those characters start with DGGVss
+function containsEmoji(str){
+	var index = str.indexOf("DGGVss");
+     return (index != -1);
+	
 }
 
 function processMessage(utils, message) {
@@ -78,11 +88,14 @@ function processResult(utils, fuzzResult){
         + "If the password is breached, the application must require the user to set a new non-breached password.")
                risk= 1;
 			utils.raiseAlert(risk, confidence, name, description);
-}    
+}
 
      }else{//if denied/error (response code is not 200-209)
           if (length > 63 && length < 129){//Payload is between 64 and 128 characters (2.1.2) but was denied
 			fuzzResult.addCustomState("Key Custom State", "2.1.2 - Verify that passwords of at least 64 characters are permitted, and that passwords of more than 128 characters are denied.")
+			utils.raiseAlert(risk, confidence, name, description);
+		}else if ((length > 11 && length < 129) && containsEmoji){//Payload is valid length and contains emoji or space (2.1.4) but was denied
+               fuzzResult.addCustomState("Key Custom State", "2.1.4 - Verify that any printable Unicode character, including language neutral characters such as spaces and Emojis are permitted in passwords.")
 			utils.raiseAlert(risk, confidence, name, description);
 		}else if ((length > 11 && length < 129) && containsSpecial(payload)){//Payload is valid length and contains special character (2.1.9) but was denied
                fuzzResult.addCustomState("Key Custom State", "2.1.9 - Verify that there are no password composition rules limiting the type of characters permitted. There should be no requirement for upper or lower case or numbers or special characters.")
