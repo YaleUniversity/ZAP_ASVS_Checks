@@ -1,4 +1,7 @@
+//Credit to BlazingWind on Github for thier implementation of this script https://github.com/BlazingWind/OWASP-ASVS-4.0-testing-guide
+
 //Script testing the following controls from OWASP ASVS 4.0:
+//5.3.4
 //5.3.5
 //5.3.10
 //5.3.3
@@ -36,8 +39,8 @@ if (extAlert != null) {
           switch (id){ //set up cases for each id to change alert format to match ASVS
             case 40018: //sql injection
               description = alert.getDescription()
-              alert.setName("5.3.5 Verify that where parameterized or safer mechanisms are not present, context-specific output encoding is used.");
-              alert.setDescription('Verify that where parameterized or safer mechanisms are not present, context-specific output encoding is used to protect against injection attacks, such as the use of SQL escaping to protect against SQL injection.' + "\n" + description)
+              alert.setName("5.3.4 & 5.3.5 Verify that where parameterized or safer mechanisms are not present, context-specific output encoding is used.");
+              alert.setDescription("5.3.4 Verify that data selection or database queries (e.g. SQL, HQL, ORM, NoSQL) use parameterized queries, ORMs, entity frameworks, or are otherwise protected from database injection attacks." + "\n" +"5.3.5 Verify that where parameterized or safer mechanisms are not present, context-specific output encoding is used to protect against injection attacks, such as the use of SQL escaping to protect against SQL injection." + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case 90029: //soap xml injection
@@ -108,8 +111,8 @@ if (extAlert != null) {
               break;
             case 4: //rfi
               description = alert.getDescription()
-              alert.setName("5.3.9 Verify that the application protects against Local File Inclusion (LFI) or Remote File Inclusion (RFI) attacks.");
-              alert.setDescription('Verify that the application protects against Local File Inclusion (LFI) or Remote File Inclusion (RFI) attacks.' + "\n" + description)
+              alert.setName("5.3.9 & 13.1.1 Verify that the application protects against Local File Inclusion (LFI) or Remote File Inclusion (RFI) attacks.");
+              alert.setDescription("5.3.9 Verify that the application protects against Local File Inclusion (LFI) or Remote File Inclusion (RFI) attacks." + "\n" + "13.1.1 Verify that all application components use the same encodings and parsers to avoid parsing attacks that exploit different URI or file parsing behavior that could be used in SSRF and RFI attacks." + "\n" + description)
               extAlert.updateAlert(alert);
               break;
             case 90023: //xml external entity attack

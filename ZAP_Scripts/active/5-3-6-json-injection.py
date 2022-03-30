@@ -1,11 +1,13 @@
 """
 
-Script testing 5.3.6 and 5.5.3 controls from OWASP ASVS 4.0:
+Script testing 5.3.6, 5.5.3 and 13.3.2 controls from OWASP ASVS 4.0:
 'Verify that the application protects against JSON injection attacks, 
 JSON eval attacks, and JavaScript expression evaluation.'
 
 'Verify that deserialization of untrusted data is avoided or is protected in
  both custom code and third-party libraries (such as JSON, XML and YAML parsers).'
+
+'Verify that JSON schema validation is in place and verified before accepting input.'
 
 The scan function will check if a message returns JSON data by checking for "application/json" in the Content-Type response header.
 If it does, it will try injecting various common JSON elements like [, ], {, }, etc... that might be used in a JSON injection attack.
@@ -23,8 +25,8 @@ def scan(sas, msg, param, value):
   #alert parameters
   alertRisk= 0
   alertConfidence = 1
-  alertTitle = "5.3.6 & 5.5.3 Verify that the application protects against JSON injection attacks, JSON eval attacks, and JavaScript expression evaluation."
-  alertDescription = " 5.3.6 Verify that the application protects against JSON injection attacks, JSON eval attacks, and JavaScript expression evaluation." + "\n" " 5.5.3 Verify that deserialization of untrusted data is avoided or is protected in both custom code and third-party libraries (such as JSON, XML and YAML parsers)."
+  alertTitle = "5.3.6, 5.5.3, 13.2.2 Verify that the application protects against JSON injection attacks, JSON eval attacks, and JavaScript expression evaluation."
+  alertDescription = " 5.3.6 Verify that the application protects against JSON injection attacks, JSON eval attacks, and JavaScript expression evaluation." + "\n" " 5.5.3 Verify that deserialization of untrusted data is avoided or is protected in both custom code and third-party libraries (such as JSON, XML and YAML parsers)." + "\n" + "13.2.2 Verify that JSON schema validation is in place and verified before accepting input."
   url = msg.getRequestHeader().getURI().toString()
   alertParam = ""
   alertAttack = ""
