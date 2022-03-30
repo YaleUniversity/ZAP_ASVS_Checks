@@ -1,3 +1,5 @@
+//Credit to BlazingWind on Github for thier implementation of this script https://github.com/BlazingWind/OWASP-ASVS-4.0-testing-guide
+
 //Script testing the following controls from OWASP ASVS 4.0:
 //5.3.4
 //5.3.5

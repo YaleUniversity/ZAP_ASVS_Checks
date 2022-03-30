@@ -26,31 +26,35 @@ def scan(ps, msg, src):
   cweID = 285
   wascID = 0
 
-  code = str(msg.getResponseHeader().getStatusCode()) # get status code
-  body = str(msg.getResponseBody()) #get response body
+  
+  try:
+    code = str(msg.getResponseHeader().getStatusCode()) # get status code
+    body = str(msg.getResponseBody()) #get response body
 
-  error_pattern = re.compile(r"[4-5][0-9]{2}") #regular expression for codes 400-599
+    error_pattern = re.compile(r"[4-5][0-9]{2}") #regular expression for codes 400-599
 
-  #regular expressions for sensitive data
-  ssn = re.compile(r"[0-9]{3}-[0-9]{2}-[0-9]{4}")
-  email = re.compile(r"^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$")
-  file_path = re.compile(r"\\[^\\]+$")
-  zip_code = re.compile(r"^((\d{5}-\d{4})|(\d{5})|([A-Z]\d[A-Z]\s\d[A-Z]\d))$")
-  ip = re.compile(r"^\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}$")
-  netid = re.compile(r"^([a-z]{2,3})([2-9]{1,5})$")
-  version = re.compile(r"[a-zA-Z]{1}\d{1,2}\.\d{1,2}\.\d{1,3}")
+    #regular expressions for sensitive data
+    ssn = re.compile(r"[0-9]{3}-[0-9]{2}-[0-9]{4}")
+    email = re.compile(r"^[\w\.=-]+@[\w\.-]+\.[\w]{2,3}$")
+    file_path = re.compile(r"\\[^\\]+$")
+    zip_code = re.compile(r"^((\d{5}-\d{4})|(\d{5})|([A-Z]\d[A-Z]\s\d[A-Z]\d))$")
+    ip = re.compile(r"^\d{1,3}[.]\d{1,3}[.]\d{1,3}[.]\d{1,3}$")
+    netid = re.compile(r"^([a-z]{2,3})([2-9]{1,5})$")
+    version = re.compile(r"[a-zA-Z]{1}\d{1,2}\.\d{1,2}\.\d{1,3}")
 
-  patterns = [(ssn, "ssn"), (email, "email"), (file_path, "file path"), (zip_code, "zip code"), (ip, "ip address"), (netid, "netid"), (version, "version")]
+    patterns = [(ssn, "ssn"), (email, "email"), (file_path, "file path"), (zip_code, "zip code"), (ip, "ip address"), (netid, "netid"), (version, "version")]
 
-  error_code = re.search(error_pattern,code)
+    error_code = re.search(error_pattern,code)
 
-  #if the response code is 400-599 and loop through the list of patterns
-  #and if the response body contains one of the regex, raise an alert
-  if (error_code):
-    for pat in patterns:
-      match = re.search(pat[0],body)
-      if (match):  
-        alertEvidence = "Error triggered. Status Code: " + code + "\n" + "Possible " + pat[1] + " found in response body: "+ match.group(0)
-        ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
-        url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
+    #if the response code is 400-599 and loop through the list of patterns
+    #and if the response body contains one of the regex, raise an alert
+    if (error_code):
+      for pat in patterns:
+        match = re.search(pat[0],body)
+        if (match):  
+          alertEvidence = "Error triggered. Status Code: " + code + "\n" + "Possible " + pat[1] + " found in response body: "+ match.group(0)
+          ps.raiseAlert(alertRisk, alertConfidence, alertTitle, alertDescription, 
+          url, alertParam, alertAttack, alertInfo, alertSolution, alertEvidence, cweID, wascID, msg);
+  except:
+    pass
 

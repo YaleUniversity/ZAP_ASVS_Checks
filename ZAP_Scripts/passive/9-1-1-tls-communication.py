@@ -10,6 +10,7 @@ import re
 
 def scan(ps, msg, src):
 
+  print('hi')
   #alert parameters
   alertRisk= 0
   alertConfidence = 1

@@ -1,4 +1,6 @@
 """
+Credit to BlazingWind on Github for this script. https://github.com/BlazingWind/OWASP-ASVS-4.0-testing-guide/blob/main/ZAP-scripts/14-5-1-HTTP-methods.py
+
 Script testing 14.5.1 and 13.2.1 controls from OWASP ASVS 4.0:
 
 'Verify that the application server only accepts the HTTP methods in use by the application or API, including pre-flight OPTIONS.'
