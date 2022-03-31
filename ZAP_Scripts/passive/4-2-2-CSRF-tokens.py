@@ -43,11 +43,13 @@ def scan(ps, msg, src):
     body = msg.getResponseBody().toString()
   # search for POST forms
     matchPost = re.findall(patternPost, body)
-    print(matchPost)
     if matchPost:
       for match in matchPost:
   # search for CSRF tokens in the form
         if not (re.search(patternToken, match)):
-          ps.raiseAlert(alertRisk, alertReliability, alertTitle, alertDescription, 
+          try:#for error that occurs with str(match)
+            ps.raiseAlert(alertRisk, alertReliability, alertTitle, alertDescription, 
             msg.getRequestHeader().getURI().toString(), 
             "No CSRF token found", "", alertInfo, alertSolution[0], str(match), cweID, wascID, msg);
+          except:
+            pass
