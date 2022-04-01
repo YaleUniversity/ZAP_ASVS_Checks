@@ -21,7 +21,7 @@ def scan(ps, msg, src):
   alertTitle = "4.2.2 Verify that the application or framework enforces a strong anti-CSRF mechanism"
   alertDescription = "The script assesses if the webpage uses csrf tokens in post forms." + "\n" + "4.2.2 Verify that the application or framework enforces a strong anti-CSRF mechanism to protect authenticated functionality, and effective anti-automation or anti-CSRF protects unauthenticated functionality." +"\n" + "13.2.3 Verify that RESTful web services that utilize cookies are protected from Cross-Site Request Forgery via the use of at least one or more of the following: double submit cookie pattern, CSRF nonces, or Origin request header checks."
 
-  alertRisk = 0
+  alertRisk = 1
   alertReliability = 1
   headerCT = str(msg.getResponseHeader().getHeader("Content-Type"))
   alertSolution = ["Add synchronizer tokens to post froms for better protection against CSRF.",""]

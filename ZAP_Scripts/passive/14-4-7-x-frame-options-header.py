@@ -20,8 +20,8 @@ def scan(ps, msg, src):
   header_csp = str(msg.getResponseHeader().getHeader("Content-Security-Policy"))
 
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 1
+  alertConfidence = 2
   alertTitle = "14.4.7 Verify that the content of a web application cannot be embedded in a third- party site."
   alertDescription = "Verify that the content of a web application cannot be embedded in a third- party site by default and that embedding of the exact resources is only allowed where necessary by using suitable Content-Security-Policy: frame-ancestors and X-Frame-Options response headers."
   url = msg.getRequestHeader().getURI().toString()

@@ -13,8 +13,8 @@ def scan(ps, msg, src):
   header = str(msg.getResponseHeader().getHeader("X-Content-Type-Options"))
 
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 1
+  alertConfidence = 2
   alertTitle = "14.4.4 Verify that all responses contain a X-Content-Type-Options: nosniff header."
   alertDescription = "The X-Content-Type-Options response HTTP header is used by the server to prevent browsers from guessing the media type ( MIME type). This is known as MIME sniffing in which the browser guesses the correct MIME type by looking at the contents of the resource. The absence of this header might cause browsers to transform non-executable content into executable content."
   url = msg.getRequestHeader().getURI().toString()

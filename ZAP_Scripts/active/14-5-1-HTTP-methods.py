@@ -15,8 +15,8 @@ import re
 #import time
 alertTitle = "14.5.1 Verify that the application server only accepts the HTTP methods in use by the application or API, including pre-flight OPTIONS."
 alertDescription = "Several HTTP methods have known exploits for them and should not be used." + "/n" + "14.5.1 Verify that the application server only accepts the HTTP methods in use by the application or API, including pre-flight OPTIONS."+ "\n" + "13.2.1 Verify that enabled RESTful HTTP methods are a valid choice for the user or action, such as preventing normal users using DELETE or PUT on protected API or resources."
-alertRisk = 0
-alertReliability = 1
+alertRisk = 2
+alertReliability = 2
 alertSolution = ["Ensure that only the required HTTP methods are allowed", ""]
 alertInfo = "Control failure"
 cweID = 749

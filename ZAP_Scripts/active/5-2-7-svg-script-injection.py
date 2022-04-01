@@ -15,8 +15,8 @@ def scanNode(sas, msg):
 
 def scan(sas, msg, param, value):
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 3
+  alertConfidence = 2
   alertTitle = "5.2.7 Verify that the application sanitizes, disables, or sandboxes user-supplied Scalable Vector Graphics (SVG) scriptable content."
   alertDescription = "Verify that the application sanitizes, disables, or sandboxes user-supplied Scalable Vector Graphics (SVG) scriptable content, especially as they relate to XSS resulting from inline scripts, and foreignObject."
   url = msg.getRequestHeader().getURI().toString()

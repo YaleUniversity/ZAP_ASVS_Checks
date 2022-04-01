@@ -23,8 +23,8 @@ def findHeaderType(msg):
 def scan(ps, msg, src):
 
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 1
+  alertConfidence = 2
   alertTitle = "14.4.3 Verify that a Content Security Policy (CSP) response header is in place."
   alertDescription = "Verify that a Content Security Policy (CSP) response header is in place that helps mitigate impact for XSS attacks like HTML, DOM, JSON, and JavaScript injection vulnerabilities."
   url = msg.getRequestHeader().getURI().toString()

@@ -18,8 +18,8 @@ def scan(ps, msg, src):
   header_xpowered = str(msg.getResponseHeader().getHeader("X-Powered-By"))
 
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 2
+  alertConfidence = 2
   alertTitle = "14.3.3 Verify that the HTTP headers do not expose detailed version information of system components."
   alertDescription = "14.3.3 Verify that the HTTP headers or any part of the HTTP response do not expose detailed version information of system components."
   url = msg.getRequestHeader().getURI().toString()

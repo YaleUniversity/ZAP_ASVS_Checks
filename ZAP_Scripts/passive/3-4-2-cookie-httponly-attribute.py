@@ -13,8 +13,8 @@ def scan(ps, msg, src):
   headerCookie = str(msg.getResponseHeader().getHeader("Set-Cookie"))
 
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 1
+  alertConfidence = 2
   alertTitle = "3.4.2 Verify that cookie-based session tokens have the 'HttpOnly' attribute set."
   alertDescription = "If the HttpOnly flag (optional) is included in the HTTP response header, the cookie cannot be accessed through client side script (again if the browser supports this flag). As a result, even if a cross-site scripting (XSS) flaw exists, and a user accidentally accesses a link that exploits this flaw, the browser (primarily Internet Explorer) will not reveal the cookie to a third party."
   url = msg.getRequestHeader().getURI().toString()

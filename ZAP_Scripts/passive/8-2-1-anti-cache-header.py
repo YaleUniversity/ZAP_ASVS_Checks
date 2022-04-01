@@ -15,8 +15,8 @@ def scan(ps, msg, src):
   header_pragma = str(msg.getResponseHeader().getHeader("Pragma"))
 
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 1
+  alertConfidence = 2
   alertTitle = "8.2.1 Verify the application sets sufficient anti-caching headers."
   alertDescription = "Verify the application sets sufficient anti-caching headers so that sensitive data is not cached in modern browsers."
   url = msg.getRequestHeader().getURI().toString()

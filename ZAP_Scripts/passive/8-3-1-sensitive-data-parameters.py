@@ -32,7 +32,7 @@ def get_parameters(url):
 def scan(ps, msg, src):
 
   #alert parameters
-  alertRisk= 0
+  alertRisk= 2
   alertConfidence = 1
   alertTitle = "8.3.1 Verify that sensitive data is sent to the server in the HTTP message body or headers."
   alertDescription = "8.3.1 Verify that sensitive data is sent to the server in the HTTP message body or headers, and that query string parameters from any HTTP verb do not contain sensitive data."

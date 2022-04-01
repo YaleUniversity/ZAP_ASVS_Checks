@@ -13,8 +13,8 @@ def scan(ps, msg, src):
   headerCookie = str(msg.getResponseHeader().getHeader("Set-Cookie"))
 
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 1
+  alertConfidence = 2
   alertTitle = "3.4.5 Verify that cookie-based session tokens utilize the 'Path' attribute."
   alertDescription = "Verify that if the application is published under a domain name with other applications that set or use session cookies that might disclose the session cookies, set the path attribute in cookie-based session tokens using the most precise path possible."
   url = msg.getRequestHeader().getURI().toString()

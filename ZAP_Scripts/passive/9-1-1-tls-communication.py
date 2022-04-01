@@ -11,7 +11,7 @@ import re
 def scan(ps, msg, src):
 
   #alert parameters
-  alertRisk= 0
+  alertRisk= 1
   alertConfidence = 1
   alertTitle = "9.1.1 Verify that TLS is used for all client connectivity."
   alertDescription = "Verify that TLS is used for all client connectivity, and does not fall back to insecure or unencrypted communications."

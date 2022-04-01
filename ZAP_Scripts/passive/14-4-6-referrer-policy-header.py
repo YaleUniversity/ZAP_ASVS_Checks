@@ -15,8 +15,8 @@ def scan(ps, msg, src):
   header = str(msg.getResponseHeader().getHeader("Referrer-Policy"))
 
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 1
+  alertConfidence = 2
   alertTitle = "14.4.6 Verify that a suitable Referrer-Policy header is included."
   alertDescription = "Verify that a suitable Referrer-Policy header is included to avoid exposing sensitive information in the URL through the Referer header to untrusted parties."
   url = msg.getRequestHeader().getURI().toString()
