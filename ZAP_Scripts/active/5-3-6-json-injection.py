@@ -23,8 +23,8 @@ def scanNode(sas, msg):
 
 def scan(sas, msg, param, value):
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 3
+  alertConfidence = 2
   alertTitle = "5.3.6, 5.5.3, 13.2.2 Verify that the application protects against JSON injection attacks, JSON eval attacks, and JavaScript expression evaluation."
   alertDescription = " 5.3.6 Verify that the application protects against JSON injection attacks, JSON eval attacks, and JavaScript expression evaluation." + "\n" " 5.5.3 Verify that deserialization of untrusted data is avoided or is protected in both custom code and third-party libraries (such as JSON, XML and YAML parsers)." + "\n" + "13.2.2 Verify that JSON schema validation is in place and verified before accepting input."
   url = msg.getRequestHeader().getURI().toString()

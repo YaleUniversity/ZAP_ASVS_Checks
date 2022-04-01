@@ -15,8 +15,8 @@ def scan(ps, msg, src):
   header = str(msg.getResponseHeader().getHeader("Strict-Transport-Security"))
 
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 1
+  alertConfidence = 2
   alertTitle = "14.4.5 Verify that a Strict-Transport-Security header is included on all responses."
   alertDescription = "Verify that a Strict-Transport-Security header is included on all responses and for all subdomains, such as Strict-Transport-Security: max-age=15724800; includeSubdomains."
   url = msg.getRequestHeader().getURI().toString()

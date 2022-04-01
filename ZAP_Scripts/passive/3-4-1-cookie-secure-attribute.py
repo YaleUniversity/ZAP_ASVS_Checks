@@ -13,8 +13,8 @@ def scan(ps, msg, src):
   headerCookie = str(msg.getResponseHeader().getHeader("Set-Cookie"))
 
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 1
+  alertConfidence = 2
   alertTitle = "3.4.1 Verify that cookie-based session tokens have the 'Secure' attribute set."
   alertDescription = "The secure attribute is an option that can be set by the application server when sending a new cookie to the user within an HTTP Response. The purpose of the secure attribute is to prevent cookies from being observed by unauthorized parties due to the transmission of the cookie in clear text. To accomplish this goal, browsers which support the secure attribute will only send cookies with the secure attribute when the request is going to an HTTPS page. Said in another way, the browser will not send a cookie with the secure attribute set over an unencrypted HTTP request. By setting the secure attribute, the browser will prevent the transmission of a cookie over an unencrypted channel."
   url = msg.getRequestHeader().getURI().toString()

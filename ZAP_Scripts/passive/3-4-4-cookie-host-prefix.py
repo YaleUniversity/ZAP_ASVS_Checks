@@ -16,7 +16,7 @@ def scan(ps, msg, src):
 
   #alert parameters
   alertRisk= 1
-  alertConfidence = 1
+  alertConfidence = 2
   alertTitle = "3.4.4 Verify that cookie-based session tokens use the __Host- prefix."
   alertDescription = "3.4.4 Verify that cookie-based session tokens use the __Host- prefix so cookies are only sent to the host that initially set the cookie."
   url = msg.getRequestHeader().getURI().toString()

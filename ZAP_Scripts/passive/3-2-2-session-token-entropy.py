@@ -33,7 +33,7 @@ def calculateEntropy(token):
 def scan(ps, msg, src):
 
   #alert parameters
-  alertRisk= 0
+  alertRisk= 1
   alertConfidence = 1
   alertTitle = "3.2.2 Verify that session tokens possess at least 64 bits of entropy."
   alertDescription = "Session identifiers should be at least 128 bits long to prevent brute-force session guessing attacks."

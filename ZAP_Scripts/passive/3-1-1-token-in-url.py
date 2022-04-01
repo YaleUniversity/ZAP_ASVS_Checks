@@ -25,7 +25,7 @@ def getToken(msg):
 def scan(ps, msg, src):
 
   #alert parameters
-  alertRisk= 0
+  alertRisk= 2
   alertConfidence = 1
   alertTitle = "3.1.1 Verify the application never reveals session tokens in URL parameters."
   alertDescription = "Verify the application never reveals session tokens in URL parameters."

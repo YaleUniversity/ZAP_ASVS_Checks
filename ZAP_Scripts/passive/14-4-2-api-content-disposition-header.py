@@ -15,8 +15,8 @@ def scan(ps, msg, src):
   header = str(msg.getResponseHeader().getHeader("Content-Disposition"))
 
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 1
+  alertConfidence = 2
   alertTitle = "14.4.2 Verify that all API responses contain a Content-Disposition."
   alertDescription = "Verify that all API responses contain a Content-Disposition: attachment; filename='api.json'header (or other appropriate filename for the content type)."
   url = msg.getRequestHeader().getURI().toString()

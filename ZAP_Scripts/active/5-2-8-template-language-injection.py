@@ -17,8 +17,8 @@ def scanNode(sas, msg):
 
 def scan(sas, msg, param, value):
   #alert parameters
-  alertRisk= 0
-  alertConfidence = 1
+  alertRisk= 3
+  alertConfidence = 2
   alertTitle = "5.2.8 & 5.2.5 Verify that the application sanitizes, disables, or sandboxes template language content."
   alertDescription = "Verify that the application sanitizes, disables, or sandboxes user-supplied scriptable or expression template language content, such as Markdown, CSS or XSL stylesheets, BBCode, or similar." + "\n" + "5.2.5 Verify that the application protects against template injection attacks by ensuring that any user input being included is sanitized or sandboxed."
   url = msg.getRequestHeader().getURI().toString()

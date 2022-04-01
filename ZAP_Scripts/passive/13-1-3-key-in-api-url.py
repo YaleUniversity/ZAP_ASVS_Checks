@@ -27,7 +27,7 @@ def getToken(msg):
 def scan(ps, msg, src):
 
   #alert parameters
-  alertRisk= 0
+  alertRisk= 2
   alertConfidence = 1
   alertTitle = "13.1.3 Verify API URLs do not expose sensitive information."
   alertDescription = "Verify API URLs do not expose sensitive information, such as the API key, session tokens etc."
